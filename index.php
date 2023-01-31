@@ -1,10 +1,45 @@
 <?php
-if(isset($_POST['submit'])){
-    echo "OK";
+
+$conn = mysqli_connect('localhost', 'root', '', 'images');
+if (!$conn) {
+    echo mysqli_connect_error();
+}
+
+if (isset($_POST['submit'])) {
+    $filename = $_FILES['theimg']['name'];
+    $tmploc = $_FILES['theimg']['tmp_name'];
+    $filetype = $_FILES['theimg']['type'];
+    $filesize = $_FILES['theimg']['size'];
+
+    $uploc = "images/" . $filename;
+
+    if ($filesize < 100000) {
+        if ($filetype == 'image/jpeg') {
+            if (file_exists($uploc)) {
+                echo "File already exists. trying uploading another image";
+            } else {
+                if (move_uploaded_file($tmploc, $uploc)) {
+                    $sql = "INSERT INTO imagetable(imagename) VALUES('$filename')";
+                    if (mysqli_query($conn, $sql)) {
+                        echo "Success";
+                    } else {
+                        echo "Image upload failed";
+                    }
+                    echo "Upload";
+                } else {
+                    echo "File is not selected";
+                }
+            }
+        } else {
+            echo "Try to upload a Jpeg file";
+        }
+    } else {
+        echo "The image size must be less than 100000 bytes";
+    }
+
+
 }
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -38,8 +73,9 @@ if(isset($_POST['submit'])){
             <div class="row">
                 <div class="col-mad-12">
                     <div class="file_uploading_area">
-                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data" method="post" id="form">
-                            <input type="file" id="theimg">
+                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data" method="post"
+                            id="form">
+                            <input type="file" name="theimg" id="theimg">
                             <input type="submit" name="submit" id="submit" value="Upload">
                         </form>
                     </div>
@@ -48,6 +84,36 @@ if(isset($_POST['submit'])){
         </div>
     </div>
 
+
+    <?php
+
+    $sql = "SELECT * FROM imagetable";
+    $query = mysqli_query($conn, $sql);
+
+    while (
+        $data = mysqli_fetch_assoc($query)
+    ) {
+        $imagename = $data['imagename'];
+
+        echo "<img src='images/$imagename'>";
+    }
+    ?>
+
+
+    <!-- Gallery -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
+                    class="w-100 shadow-1-strong rounded mb-4" alt="Boat on Calm Water" />
+
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
+                    class="w-100 shadow-1-strong rounded mb-4" alt="Wintry Mountain Landscape" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery -->
 
 
     <!-- Custom JS -->
