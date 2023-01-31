@@ -61,6 +61,11 @@ if (isset($_POST['submit'])) {
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        img {
+            max-width: 10%;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -95,25 +100,10 @@ if (isset($_POST['submit'])) {
     ) {
         $imagename = $data['imagename'];
 
-        echo "<img src='images/$imagename'>";
+        echo "<img src='images/$imagename' class='image'>";
     }
     ?>
 
-
-    <!-- Gallery -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-                    class="w-100 shadow-1-strong rounded mb-4" alt="Boat on Calm Water" />
-
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
-                    class="w-100 shadow-1-strong rounded mb-4" alt="Wintry Mountain Landscape" />
-            </div>
-        </div>
-    </div>
-
-    <!-- Gallery -->
 
 
     <!-- Custom JS -->
