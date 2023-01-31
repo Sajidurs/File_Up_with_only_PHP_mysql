@@ -1,5 +1,6 @@
 <?php
 
+// Connect to the database
 $conn = mysqli_connect('localhost', 'root', '', 'images');
 if (!$conn) {
     echo mysqli_connect_error();
